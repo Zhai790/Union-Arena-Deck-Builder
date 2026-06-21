@@ -1,0 +1,18 @@
+{
+  "name": "Sample BLEACH Deck",
+  "cards": [
+    { "id": "UA01BT/BLC-1-001", "count": 4 },
+    { "id": "UA01BT/BLC-1-002", "count": 4 },
+    { "id": "UA01BT/BLC-1-003", "count": 4 },
+    { "id": "UA01BT/BLC-1-004", "count": 4 },
+    { "id": "UA01BT/BLC-1-005", "count": 4 },
+    { "id": "UA01BT/BLC-1-006", "count": 4 },
+    { "id": "UA01BT/BLC-1-007", "count": 4 },
+    { "id": "UA01BT/BLC-1-008", "count": 4 },
+    { "id": "UA01BT/BLC-1-009", "count": 4 },
+    { "id": "UA01BT/BLC-1-010", "count": 4 },
+    { "id": "UA01BT/BLC-1-011", "count": 4 },
+    { "id": "UA01BT/BLC-1-012", "count": 3 },
+    { "id": "UA01BT/BLC-1-013", "count": 3 }
+  ]
+}
