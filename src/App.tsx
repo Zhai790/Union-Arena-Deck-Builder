@@ -4,6 +4,7 @@ import { DeckInput } from './components/DeckInput';
 import { ValidationResults } from './components/ValidationResults';
 import { DeckExport } from './components/DeckExport';
 import { DeckVisualizer } from './components/DeckVisualizer';
+import { DeckAnalysis } from './components/DeckAnalysis';
 
 function App() {
   const { cardsLoading, cardsError, initializeCards, loadSavedDecks, newDeck } = useDeckStore();
@@ -54,7 +55,7 @@ function App() {
       <header style={{ marginBottom: '2rem', borderBottom: '2px solid #1976d2', paddingBottom: '1rem' }}>
         <h1 style={{ margin: 0, color: '#1976d2' }}>Union Arena Deck Builder</h1>
         <p style={{ margin: '0.5rem 0 0 0', color: '#666' }}>
-          Phase 1: Barebones validation tool
+          Phase 2: Intelligent deck analysis & optimization
         </p>
       </header>
 
@@ -77,6 +78,7 @@ function App() {
 
       <DeckInput />
       <ValidationResults />
+      <DeckAnalysis />
       <DeckVisualizer />
       <DeckExport />
 

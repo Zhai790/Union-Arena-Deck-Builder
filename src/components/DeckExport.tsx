@@ -1,22 +1,8 @@
 import { useDeckStore } from '../stores/deck-store';
-import { exportDeckJSON } from '../lib/storage/deck-storage';
 import { exportTextDeck } from '../lib/storage/text-deck-parser';
 
 export function DeckExport() {
   const { currentDeck, validationResult, saveCurrentDeck, savedDecks } = useDeckStore();
-
-  const handleExportJSON = () => {
-    if (!currentDeck) return;
-
-    const json = exportDeckJSON(currentDeck);
-    const blob = new Blob([json], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${currentDeck.name}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
 
   const handleExportText = () => {
     if (!currentDeck) return;
@@ -41,13 +27,6 @@ export function DeckExport() {
     const text = exportTextDeck(currentDeck);
     navigator.clipboard.writeText(text);
     alert('Deck text copied to clipboard!');
-  };
-
-  const handleCopyJSON = () => {
-    if (!currentDeck) return;
-    const json = exportDeckJSON(currentDeck);
-    navigator.clipboard.writeText(json);
-    alert('Deck JSON copied to clipboard!');
   };
 
   if (!currentDeck) {
@@ -95,22 +74,6 @@ export function DeckExport() {
         </button>
 
         <button
-          onClick={handleExportJSON}
-          disabled={!isValid}
-          style={{
-            padding: '0.75rem 1.5rem',
-            background: isValid ? '#1976d2' : '#ccc',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: isValid ? 'pointer' : 'not-allowed',
-            fontSize: '16px',
-          }}
-        >
-          📥 Export JSON
-        </button>
-
-        <button
           onClick={handleCopyText}
           style={{
             padding: '0.75rem 1.5rem',
@@ -122,22 +85,7 @@ export function DeckExport() {
             fontSize: '16px',
           }}
         >
-          📋 Copy Text
-        </button>
-
-        <button
-          onClick={handleCopyJSON}
-          style={{
-            padding: '0.75rem 1.5rem',
-            background: '#ff9800',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontSize: '16px',
-          }}
-        >
-          📋 Copy JSON
+          📋 Copy to Clipboard
         </button>
       </div>
 

@@ -176,11 +176,16 @@ export function clearCardCache(): void {
  * Normalize card ID by removing set prefix
  * Examples:
  * - "UA47BT-TKG-1-080" → "TKG-1-080"
+ * - "UE15BT/EVA-1-001" → "EVA-1-001"
+ * - "UAPR-TKG-P-001" → "TKG-P-001" (promo)
  * - "TKG-1-080" → "TKG-1-080" (already normalized)
  */
 function normalizeCardId(id: string): string {
-  // Remove common set prefixes: UA01BT-, UA47BT-, etc.
-  return id.replace(/^UA\d+[A-Z]+-/, '');
+  // Remove common set prefixes with - or / delimiter
+  // Patterns:
+  // - UA47BT-, UE15BT/ (set number + type)
+  // - UAPR-, UEPR- (promo without set number)
+  return id.replace(/^U[AE](\d+)?[A-Z]+[-/]/, '');
 }
 
 /**
@@ -201,7 +206,7 @@ export function buildCardIndex(cards: CardWithMetadata[]): Map<string, CardWithM
 
     // Also index full format versions for short IDs
     // If card has "TKG-1-080", also add "UA47BT-TKG-1-080", "UA47ST-TKG-1-080", etc.
-    if (!card.id.startsWith('UA')) {
+    if (!card.id.startsWith('UA') && !card.id.startsWith('UE')) {
       // Common set prefixes: BT (booster), ST (starter), PR (promo)
       const setNumbers = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
                           '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
@@ -212,10 +217,16 @@ export function buildCardIndex(cards: CardWithMetadata[]): Map<string, CardWithM
 
       for (const num of setNumbers) {
         for (const type of setTypes) {
+          // Handle both - and / delimiters
           index.set(`UA${num}${type}-${card.id}`, card);
-          index.set(`UE${num}${type}-${card.id}`, card); // UE prefix also exists
+          index.set(`UE${num}${type}/${card.id}`, card); // UE prefix uses / delimiter
+          index.set(`UE${num}${type}-${card.id}`, card); // Also handle - for UE
         }
       }
+
+      // Also handle promo cards without set number (UAPR-, UEPR-)
+      index.set(`UAPR-${card.id}`, card);
+      index.set(`UEPR-${card.id}`, card);
     }
   }
 
